@@ -33,6 +33,7 @@ export default function Overview() {
         }}>
           <Icon source="mail" size={20} color="gray" />
           <TextInput
+          value={email}
             style={styles.email}
             placeholder="digite o email..."
             />
@@ -49,9 +50,11 @@ export default function Overview() {
         }}>
           <Icon source="mail" size={20} color="gray" />
           <TextInput
-            // label ="Your email"
+            value={password}
+            label ="Your email"
             style={styles.email}
             placeholder="digite a senha..."
+            onChangeText={() => setPassword}
             />
         </View>
         <TouchableOpacity
@@ -89,19 +92,19 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor:'lightgreen',
+    // backgroundColor:'lightgreen',
     padding: 24,
   },
   main: {
     // margin: 10,
-    backgroundColor:'lightpink',
+    // backgroundColor:'lightpink',
     flex: 1,
     maxWidth: 960,
     marginHorizontal: 'auto',
     justifyContent: 'center',
   },
   title: {
-    backgroundColor:'lightcoral',
+    // backgroundColor:'lightcoral',
     fontSize: 40,
     fontWeight: 'bold',
   },
