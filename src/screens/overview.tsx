@@ -1,66 +1,52 @@
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
+import { Icon } from 'react-native-paper';
+// import { useState } from 'react';
 
 import { RootStackParamList } from '../navigation';
-import { TextInput } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons';
-import { Icon } from 'react-native-paper';
-import { useState } from 'react';
 
 type OverviewScreenNavigationProps = StackNavigationProp<RootStackParamList, 'Overview'>;
 
 export default function Overview() {
   const navigation = useNavigation<OverviewScreenNavigationProps>();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
 
   return (
     <View style={styles.container}>
-      <View style={styles.main}>
-        <View>
-          <Text style={styles.title}>Log In</Text>
-        </View>
-        <View style={{
-          backgroundColor:'lightgreen',
-          flexDirection: 'row',
-          alignItems: 'center',
-          borderWidth:1,
-          borderRadius: 8,
-          marginBottom: 16,
-          padding: 8,
-          borderColor:'gray'
-        }}>
-          <Icon source="mail" size={20} color="gray" />
-          <TextInput
-          value={email}
-            style={styles.email}
-            placeholder="digite o email..."
-            />
-        </View>
-        <View style={{
-          backgroundColor:'lightgreen',
-          flexDirection: 'row',
-          alignItems: 'center',
-          borderWidth:1,
-          borderRadius: 8,
-          marginBottom: 16,
-          padding: 8,
-          borderColor:'gray'
-        }}>
-          <Icon source="mail" size={20} color="gray" />
-          <TextInput
-            value={password}
-            label ="Your email"
-            style={styles.email}
-            placeholder="digite a senha..."
-            onChangeText={() => setPassword}
-            />
-        </View>
+      <Text style={styles.header}>Log in</Text>
+      <View style={styles.input}>
+        <Icon source="email-outline" size={20} color="gray" />
+        <TextInput placeholder="Your email" />
+      </View>
+      <View style={styles.input}>
+        <Icon source="key" size={20} color="gray" />
+        <TextInput placeholder="Your password" />
+      </View>
+      <TouchableOpacity
+        onPress={() => alert('indo pra tela de dashboard')}
+        style={styles.loginButton}>
+        <Text style={styles.loginButtonText}>Log in</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => alert('hello')}>
+        <Text style={styles.forgotText}>Forgot password</Text>
+      </TouchableOpacity>
+
+      <View style={styles.dividerContainer}>
+        <View style={styles.divider} />
+        <Text style={styles.dividerText}>OR</Text>
+        <View style={styles.divider} />
+      </View>
+      <View style={styles.loginWithSocial}>
         <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('Details', { name: 'Dan' })}>
-          <Text style={styles.buttonText}>Log in</Text>
+          onPress={() => alert('indo pra tela de dashboard')}
+          >
+          <Text style={styles.googleButton}>Google</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => alert('indo pra tela de dashboard')}
+          >
+          <Text style={styles.facebookButton}>Facebook</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -68,61 +54,78 @@ export default function Overview() {
 }
 
 const styles = StyleSheet.create({
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#0062FF',
-    borderRadius: 24,
-    elevation: 5,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: {
-      height: 2,
-      width: 0,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'center',
-  },
   container: {
     flex: 1,
-    // backgroundColor:'lightgreen',
     padding: 24,
-  },
-  main: {
-    // margin: 10,
-    // backgroundColor:'lightpink',
-    flex: 1,
-    maxWidth: 960,
-    marginHorizontal: 'auto',
     justifyContent: 'center',
   },
-  title: {
-    // backgroundColor:'lightcoral',
-    fontSize: 40,
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: '100%',
+    borderWidth: 1,
+    borderColor: 'gray',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  loginButton: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: 'white',
     fontWeight: 'bold',
   },
-  subtitle: {
-    // color: '#38434D',
-    // fontSize: 36,
+  forgotText: {
+    color: 'blue',
+    marginBottom: 10,
+    textAlign: 'right',
+    marginVertical: 10,
+    fontWeight: 'bold',
   },
-  // inputs:{
-  //   justifyContent:'space-between'
-  // },
-  input:{
-    // flex:1,
-    // height:60,
-    // margin:10,
-    // backgroundColor:'#a7c9ff',
-    // borderColor:'gray',
+  dividerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
   },
-  email:{
+  divider: {
+    flex: 1,
+    height: 1,
+    backgroundColor: 'gray',
+  },
+  dividerText: {
+    marginHorizontal: 10,
+  },
+  googleButton:{
+    marginHorizontal: 10,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  facebookButton:{
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  loginWithSocial:{
+    flexDirection: 'row', 
+    justifyContent: 'center',
+  }
 
-  },
 });
