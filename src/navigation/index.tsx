@@ -3,12 +3,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Text, View, StyleSheet } from 'react-native';
 
-import Details from '../screens/details';
-import Overview from '../screens/overview';
+import Dashboard from '../screens/dashboard';
+import Login from '../screens/login';
+import Register from '../screens/register';
 
 export type RootStackParamList = {
-  Overview: undefined;
-  Details: { name: string };
+  Login: undefined;
+  Dashboard: { userData: { email: string; password: string } };
+  Register: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -16,22 +18,13 @@ const Stack = createStackNavigator<RootStackParamList>();
 export default function RootStack() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Overview">
-        <Stack.Screen name="Overview" component={Overview} />
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name= "Login" component={Login} options={{ headerShown: false }} />
         <Stack.Screen
-          name="Details"
-          component={Details}
-          options={({ navigation }) => ({
-            headerLeft: () => (
-              <View style={styles.backButton}>
-                <Feather name="chevron-left" size={16} color="#007AFF" />
-                <Text style={styles.backButtonText} onPress={navigation.goBack}>
-                  Back
-                </Text>
-              </View>
-            ),
-          })}
+          name= "Dashboard"
+          component={Dashboard}
         />
+        <Stack.Screen name= "Register" component={Register} />
       </Stack.Navigator>
     </NavigationContainer>
   );

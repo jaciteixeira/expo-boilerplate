@@ -3,31 +3,109 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { StyleSheet, Text, Touchable, TouchableOpacity, View, Image } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-paper';
-// import { useState } from 'react';
+import Feather from "@expo/vector-icons/Feather"
+import { useState } from 'react';
 
 import { RootStackParamList } from '../navigation';
 
-type OverviewScreenNavigationProps = StackNavigationProp<RootStackParamList, 'Overview'>;
+type LoginScreenNavigationProps = StackNavigationProp<RootStackParamList, 'Login'>;
 
-export default function Overview() {
-  const navigation = useNavigation<OverviewScreenNavigationProps>();
+export default function Login() {
+  const navigation = useNavigation<LoginScreenNavigationProps>();
+  const [userData, setUserData] = useState({
+    email: "",
+    password: "",
+  })
+
+  // const validateUser = () => {
+  //   if (!userData.email || !userData.password) {
+  //     alert("Please enter your email and password.")
+  //     return false
+  //   }
+
+  //   if (!/\S+@\S+\.\S+/.test(userData.email)) {
+  //     alert("Please enter a valid email address.")
+  //     return false
+  //   }
+
+  //   if (userData.password.length < 8) {
+  //     alert("Password must be at least 8 characters long.")
+  //     return false
+  //   }
+
+  //   return true
+  // }
+
+  const handleLogin = () => {
+    // CHAMA A API
+    // SE DER CERTO, VAI PRA TELA DE DASHBOARD
+
+    // fetch('https://api.example.com/login', {
+    //   method: 'POST',
+    //   body: JSON.stringify({ email, password }),
+    // })
+    //   .then((response) => {
+    //     if (response.ok) {
+    //       navigation.navigate('details');
+    //     } else {
+    //       alert('Email ou senha inválidos');
+    //     }
+    //   })
+    //   .catch(() => {
+    //     alert('Erro ao fazer login');
+    //   });
+
+    navigation.replace('Dashboard', { userData });
+  };
+
+  const validateEmail = (str: string) => {
+    // validando se o email é válido
+    const regex =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regex.test(str);
+  };
+
+  const validatePassword = (str: string) => {
+    // validando se a senha é válida
+    return str.length > 8;
+  };
+
+  const isButtonDisabled = () => {
+    // true e true = true
+    // true e false = false
+    // false e true = false
+    // false e false = false
+    return !validateEmail(userData.email) || !validatePassword(userData.password);
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Log in</Text>
       <View style={styles.input}>
-        <Icon source="email-outline" size={20} color="gray" />
-        <TextInput placeholder="Your email" 
-        style={styles.textInput}/>
+        <Icon source="email-outline" size={20} color={"#ADB0CD"} />
+        <TextInput 
+          placeholder="Your email" 
+          style={styles.textInput}
+          maxLength={37}
+          value={userData.email}
+          onChangeText={text => setUserData({ ...userData, email: text })}
+        />
       </View>
       <View style={styles.input}>
-        <Icon source="key" size={20} color="gray" />
-        <TextInput placeholder="Your password" 
-        style={styles.textInput}/>
+      <Feather name="key" size={20} color={"#ADB0CD"} />
+        <TextInput 
+          secureTextEntry={true}
+          placeholder="Your password" 
+          style={styles.textInput}
+          maxLength={37}
+          value={userData.password}
+          onChangeText={text => setUserData({ ...userData, password: text })}
+        />
       </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate('Details', { name: 'Dan' })}
-        style={styles.loginButton}>
+        onPress={handleLogin}
+        // disabled={isButtonDisabled()}
+        style={[styles.loginButton , isButtonDisabled() && { backgroundColor: 'gray' }]}>
         <Text style={styles.loginButtonText}>Log in</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => alert('forgot password')}>
@@ -62,7 +140,10 @@ export default function Overview() {
       <View style={styles.createAccount}>
         <Text style={{color:'#969AB8'}}>Don’t have an account?  </Text>
         <TouchableOpacity 
-        onPress={() => alert('indo pra tela de inscrição')}>
+          onPress={() => navigation.navigate("Register"
+          // , { userData }
+          )}
+        >
           <Text style={styles.sign}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -95,11 +176,13 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   loginButton: {
+    height: 55,
     backgroundColor: '#0062FF',
     padding: 10,
     borderRadius: 8,
     marginTop: 10,
     alignItems: 'center',
+    justifyContent:'center',
   },
   loginButtonText: {
     color: 'white',
